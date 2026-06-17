@@ -94,15 +94,32 @@ try:
     # plt.bar(df_estelionato_maiores['mes_ano'], df_estelionato_maiores['estelionato'])
     # plt.title(f'Ranking Top 10')
     # plt.show()
-    plt.figure(figsize=(18,8))
-    plt.subplots(2,1)
     
-    plt.subplot(2, 1, 1)    
-    plt.boxplot(array_estelionato, vert=False, showmeans=True)
+    plt.subplots(2,2, figsize=(18,10))
 
-    plt.subplot(2, 1, 2)
-    plt.text(0.1, 0.9, f'Média: {media_estelionato}')
+    # Posição 1 
+    plt.subplot(2, 2, 1)    
+    # showfliers=False para tirar o outliers
+    plt.boxplot(array_estelionato, vert=False, showmeans=True )
+    plt.title('BoxPlot da Distribuição')
 
+    # Posição 2
+    plt.subplot(2, 2, 2)
+    plt.text(0.1, 0.9, f'Média: {media_estelionato:.0f}')
+    plt.text(0.1, 0.8, f'Distância: {distancia:.0%}')
+    plt.text(0.1, 0.7, f'Limite Inferior: {limite_inferior:.0f}')
+    plt.text(0.1, 0.6, f'Mínimo: {menores:.0f}')
+    plt.text(0.1, 0.5, f'Q1: {q1:.0f}')
+    plt.text(0.1, 0.4, f'Mediana: {mediana_estelionato:.0f}')
+    plt.text(0.1, 0.3, f'Q3: {q3:.0f}')
+    plt.text(0.1, 0.2, f'Limite Superior: {limite_superior:.0f}')
+    plt.text(0.1, 0.1, f'Máximo: {maiores:.0f}')
+    plt.text(0.1, 0.0, f'Amplitude Total: {amplitude:.0f}')
+    plt.axis('off')
+    plt.title('Resumo Estatístico')
+
+    # Posição 3
+    plt.subplot(2, 2, 3)
     plt.show()
 
 except Exception as e:
