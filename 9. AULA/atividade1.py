@@ -58,7 +58,7 @@ except Exception as e:
 try:
     df_estelionato_maiores = df_estelionato[df_estelionato['estelionato'] > q3]
     df_estelionato_menores = df_estelionato[df_estelionato['estelionato'] < q1]
-    outliers_superior = df_estelionato[df_estelionato['estelionato'] > limite_superior]
+    df_outliers_superior = df_estelionato[df_estelionato['estelionato'] > limite_superior]
 
     print('========= Maiores Casos de Estelionato =========')
     print(df_estelionato_maiores.sort_values(by='estelionato', ascending=False).head(15))
@@ -67,7 +67,7 @@ try:
     print(df_estelionato_menores.sort_values(by='estelionato', ascending=True).head(15))
     
     print('========= Outliers Superior =========')
-    print(outliers_superior.sort_values(by='estelionato', ascending=False).head(15))
+    print(df_outliers_superior.sort_values(by='estelionato', ascending=False).head(15))
     
     print('========= Análise Geral =========')
     print("""
@@ -120,6 +120,55 @@ try:
 
     # Posição 3
     plt.subplot(2, 2, 3)
+    df_outliers_superior = (
+        df_outliers_superior
+        .sort_values(by='estelionato', ascending=True)
+        .head(10)
+        .sort_values(by='estelionato', ascending=False)
+    )
+    plt.bar(
+        df_outliers_superior['mes_ano'],
+        df_outliers_superior['estelionato']
+    )
+    plt.xticks(rotation=45, ha='right')
+    deslocamento = max(df_outliers_superior['estelionato']) * 0.02
+    for i, valor in enumerate(df_outliers_superior['estelionato']):
+            plt.text(
+                i, #posição Y
+                valor, #posição X
+                f'{valor:,}',
+                ha='center'
+            )
+    plt.title('Períodos c/ Outliers Superiores')
+
+    # # Posição 4 - Outliers Inferiores ou Menores
+    plt.subplot(2, 2, 4)
+    
+    df_estelionato_menores = (
+        df_estelionato_menores
+        .sort_values(by='estelionato', ascending=True)
+        .head(10)
+        .sort_values(by='estelionato', ascending=False)
+    )
+    plt.barh(
+        df_estelionato_menores['mes_ano'],
+        df_estelionato_menores['estelionato']
+        )
+    deslocamento = max(df_estelionato_menores['estelionato']) * 0.02
+
+    # Rótulo de Dados
+    for i, valor in enumerate(df_estelionato_menores['estelionato']):
+        plt.text(
+            valor, #posição X
+            i, #posição Y
+            f'{valor:,}',
+            ha='left'
+        )
+    plt.title('Períodos c/ Menores Estelionato')
+
+
+
+
     plt.show()
 
 except Exception as e:
